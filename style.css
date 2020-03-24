@@ -1,0 +1,107 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+body {
+    background-color: #2d545e;
+    height: 100vh;
+    color: white;
+}
+
+.container {
+    width: 50%;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+}
+
+.container-introTitle {
+    padding-bottom: 5px;
+}
+
+.introTitleText {
+    text-align: center;
+    font-size: 4vh;
+    color: white;
+    opacity: 0.7;
+}
+
+.container-setTimer {
+    background-color: #c89666;
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+}
+
+.buttonsTimerAdjust {
+    display: flex;
+    justify-content: space-around; 
+}
+
+.container-countdownTimer {
+    background-color: #c89666;
+    margin-top: 15px;
+}
+
+.setTimerTitle {
+    text-align: center;
+    font-size: 2.5vh;
+    opacity: 0.9;
+    margin: 10px 0px;
+}
+
+.buttonsTimerAdjust {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.adjustSessionValue {
+    margin: 0 10px;
+    font-size: 2vh;
+    opacity: 0.9;
+}
+
+.adjustBreakValue {
+    margin: 0 10px;
+    font-size: 2vh;
+    opacity: 0.9;
+}
+
+.buttonSize {
+    width: 6vh;;
+    height: 3vh;
+    font-size: 3vh;
+    padding: 0px;
+    border: none;
+    background-color: #c89666;
+    cursor: pointer;
+}
+
+.countdownTimerSessionOrBreak {
+    text-align: center;
+    font-size: 3vh;
+    padding-top: 10px;
+}
+
+.countdown  {
+    margin: 10px 0px;
+    text-align: center;
+    font-size: 6vh;
+}
+
+.buttonsTimer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.adjustButton {
+    font-size: 2vh;
+}
