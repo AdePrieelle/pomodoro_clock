@@ -1,6 +1,7 @@
 const timer = () => {
 
-  
+  //global variable to see is the timer is paused
+  let checkPause = false;
 
   //values of adjustsession and adjustbreak
   const sessionValue = document.querySelector(".adjustSessionValue");
@@ -59,67 +60,120 @@ const timer = () => {
   const startTimeCountdown = () => {
     
     play.addEventListener("click", function() {
-
       play.disabled = true;
-      startSessionCountdown();
+      pause.disabled = false;
+      if (titleSessionOrBreak.textContent == "Session") {
+        startSessionCountdown();
+      } else if (titleSessionOrBreak.textContent == "Break") {
+        startBreakCountdown();
+      }
+      
+      
     });
     
 
   };
 
+  
+  /* 
+  let minutes be countdownValue minutes and seconds be countdownvalue seconds
+  then if checkPause is true clear interval in startSessionCountdown and
+  startBreakCountdown
+  when play is pressed again check if titleSessionOrBreak is session or break
+  and based on that continue startSessionCountdown with countdownValue.textcontent
+  */
+ 
   const startSessionCountdown = () => {
 
-    let minutes = +sessionValue.textContent;
-    let seconds = 0;
+    let minutes;
+    let seconds;
+    if (!checkPause) {
+      minutes = +sessionValue.textContent;
+      seconds = 0;
+    } else {
+      minutes = +(countdownValue.textContent).slice(0, 2);
+      seconds = +(countdownValue.textContent).slice(-2);
+    }
+
+    //make sure the timer doesnt start over again when played again after a pause
+    checkPause = false;
 
     let activeSessionCountdown = setInterval(function() {
-
-      titleSessionOrBreak.textContent = sessionValueTitle.textContent;
-      countdownValue.textContent = minTwoDigits(minutes) + ":" + minTwoDigits(seconds);
-      if (minutes == 0 && seconds == 0) {
-        clearInterval(activeSessionCountdown);
-        startBreakCountdown();
-      } else if (seconds == 0) {
-          minutes -= 1;
-          seconds = 59;
-      } else {
+      if (!checkPause) {
+        titleSessionOrBreak.textContent = sessionValueTitle.textContent;
+        countdownValue.textContent = minTwoDigits(minutes) + ":" + minTwoDigits(seconds);
+        if (minutes == 0 && seconds == 0) {
+          clearInterval(activeSessionCountdown);
+          startBreakCountdown();
+        } else if (seconds == 0) {
+            minutes -= 1;
+            seconds = 59;
+        } else {
           seconds -= 1;
+        }
+
+      //execute if not paused
+      } else {
+        clearInterval(activeSessionCountdown);
       }
   
-    }, 1000);
+    }, 100);
 
   };
 
   const startBreakCountdown = () => {
     
-    let minutes = +breakValue.textContent;
-    let seconds = 0;
+    let minutes;
+    let seconds;
+    if (!checkPause) {
+      minutes = +breakValue.textContent;
+      seconds = 0;
+    } else {
+      minutes = +(countdownValue.textContent).slice(0, 2);
+      seconds = +(countdownValue.textContent).slice(-2);
+    }
+
+    //make sure the timer doesnt start over again when played again after a pause
+    checkPause = false;
 
     let activeBreakCountdown = setInterval(function() {
-
-      titleSessionOrBreak.textContent = breakValueTitle.textContent;
-      countdownValue.textContent = minTwoDigits(minutes) + ":" + minTwoDigits(seconds);
-      if (minutes == 0 && seconds == 0) {
-        clearInterval(activeBreakCountdown);
-        startSessionCountdown();
-      } else if (seconds == 0) {
-          minutes -= 1;
-          seconds = 59;
+      if (!checkPause) {
+        titleSessionOrBreak.textContent = breakValueTitle.textContent;
+        countdownValue.textContent = minTwoDigits(minutes) + ":" + minTwoDigits(seconds);
+        if (minutes == 0 && seconds == 0) {
+          clearInterval(activeBreakCountdown);
+          startSessionCountdown();
+        } else if (seconds == 0) {
+            minutes -= 1;
+            seconds = 59;
+        } else {
+            seconds -= 1;
+        }
+      //execute if not paused
       } else {
-          seconds -= 1;
+        clearInterval(activeBreakCountdown);
       }
   
-    }, 1000);    
+    }, 100);    
     
   };
 
-  function minTwoDigits(n) {
+  const minTwoDigits = (n) => {
     return (n < 10 ? '0' : '') + n;
+  };
+
+  const pauseTimer = () => {
+    pause.addEventListener("click", function () {
+      checkPause = true;
+      play.disabled = false;
+      pause.disabled = true;
+    });
   };
  
   //call functions
   adjustSessionValue();
   startTimeCountdown();
+  pauseTimer();
 }
 //call timer
 timer();
