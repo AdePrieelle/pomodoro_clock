@@ -2,13 +2,17 @@ const timer = () => {
 
   //global variable to see is the timer is paused
   let checkPause = false;
-
+  //global variable to see if the timer is stopped
+  let checkStop = false;
+  //global variable to see if the timer is being reset;
+  let checkReset = false;
+  
   //values of adjustsession and adjustbreak
   const sessionValue = document.querySelector(".adjustSessionValue");
   const sessionValueTitle = document.querySelector(".sessionTitle");
   const breakValue = document.querySelector(".adjustBreakValue");
   const breakValueTitle = document.querySelector(".breakTitle");
-  //the buttons to adjust increase and decrease sessionValue and BreakValue
+  //buttons to increase and decrease sessionValue and BreakValue
   const downTimerSession = document.querySelector(".downTimerSession");
   const upTimerSession = document.querySelector(".upTimerSession");
   const downTimerBreak = document.querySelector(".downTimerBreak");
@@ -16,7 +20,7 @@ const timer = () => {
   //display the session or break as title and its countdown timer
   const titleSessionOrBreak = document.querySelector(".titleSessionOrBreak");
   const countdownValue = document.querySelector(".countdownValue");
-  //interaction buttons to interact with the timer
+  //buttons to interact with the timer
   const play = document.querySelector(".play");
   const pause = document.querySelector(".pause");
   const stop = document.querySelector(".stop");
@@ -54,27 +58,24 @@ const timer = () => {
     countdownValue.textContent = minTwoDigits(+sessionValue.textContent) + ":00";
   }
 
-  //https://www.youtube.com/watch?v=LAaf7-WuJJQ
-  //Countdown timer
-
-  const startTimeCountdown = () => {
+  const playTimer = () => {
     
     play.addEventListener("click", function() {
       play.disabled = true;
       pause.disabled = false;
+      stop.disabled = false;
+      downTimerSession.disabled = true;
+      upTimerSession.disabled = true;
+      downTimerBreak.disabled = true;
+      upTimerBreak.disabled = true;
       if (titleSessionOrBreak.textContent == "Session") {
         startSessionCountdown();
       } else if (titleSessionOrBreak.textContent == "Break") {
         startBreakCountdown();
       }
-      
-      
     });
-    
-
   };
 
-  
   /* 
   let minutes be countdownValue minutes and seconds be countdownvalue seconds
   then if checkPause is true clear interval in startSessionCountdown and
@@ -82,7 +83,7 @@ const timer = () => {
   when play is pressed again check if titleSessionOrBreak is session or break
   and based on that continue startSessionCountdown with countdownValue.textcontent
   */
- 
+
   const startSessionCountdown = () => {
 
     let minutes;
@@ -91,15 +92,17 @@ const timer = () => {
       minutes = +sessionValue.textContent;
       seconds = 0;
     } else {
-      minutes = +(countdownValue.textContent).slice(0, 2);
-      seconds = +(countdownValue.textContent).slice(-2);
+        minutes = +(countdownValue.textContent).slice(0, 2);
+        seconds = +(countdownValue.textContent).slice(-2);
     }
 
-    //make sure the timer doesnt start over again when played again after a pause
+    //make sure the timer doesnt start over again when played again after a pause and a stop
     checkPause = false;
+    checkStop = false;
+    checkReset = false;
 
     let activeSessionCountdown = setInterval(function() {
-      if (!checkPause) {
+      if (!checkPause && !checkStop && !checkReset) {
         titleSessionOrBreak.textContent = sessionValueTitle.textContent;
         countdownValue.textContent = minTwoDigits(minutes) + ":" + minTwoDigits(seconds);
         if (minutes == 0 && seconds == 0) {
@@ -112,32 +115,33 @@ const timer = () => {
           seconds -= 1;
         }
 
-      //execute if not paused
+      //execute if paused, stopped or if being reset to clear the ongoing timer
       } else {
-        clearInterval(activeSessionCountdown);
+          clearInterval(activeSessionCountdown);
       }
   
-    }, 100);
-
+    }, 1000);
   };
 
   const startBreakCountdown = () => {
-    
+
     let minutes;
     let seconds;
     if (!checkPause) {
       minutes = +breakValue.textContent;
       seconds = 0;
     } else {
-      minutes = +(countdownValue.textContent).slice(0, 2);
-      seconds = +(countdownValue.textContent).slice(-2);
+        minutes = +(countdownValue.textContent).slice(0, 2);
+        seconds = +(countdownValue.textContent).slice(-2);
     }
 
-    //make sure the timer doesnt start over again when played again after a pause
+    //make sure the timer doesnt start over again when played again after a pause, stop or reset
     checkPause = false;
+    checkStop = false;
+    checkReset = false;
 
     let activeBreakCountdown = setInterval(function() {
-      if (!checkPause) {
+      if (!checkPause && !checkStop && !checkReset) {
         titleSessionOrBreak.textContent = breakValueTitle.textContent;
         countdownValue.textContent = minTwoDigits(minutes) + ":" + minTwoDigits(seconds);
         if (minutes == 0 && seconds == 0) {
@@ -149,13 +153,12 @@ const timer = () => {
         } else {
             seconds -= 1;
         }
-      //execute if not paused
+      //execute if paused, stopped or if being reset to clear the ongoing timer
       } else {
-        clearInterval(activeBreakCountdown);
+          clearInterval(activeBreakCountdown);
       }
   
-    }, 100);    
-    
+    }, 1000);
   };
 
   const minTwoDigits = (n) => {
@@ -167,13 +170,50 @@ const timer = () => {
       checkPause = true;
       play.disabled = false;
       pause.disabled = true;
+      downTimerSession.disabled = true;
+      upTimerSession.disabled = true;
+      downTimerBreak.disabled = true;
+      upTimerBreak.disabled = true;
+    });
+  };
+
+  const stopTimer = () => {
+    stop.addEventListener("click", function () {
+      checkStop = true;
+      play.disabled = false;
+      pause.disabled = true;
+      downTimerSession.disabled = false;
+      upTimerSession.disabled = false;
+      downTimerBreak.disabled = false;
+      upTimerBreak.disabled = false;
+      titleSessionOrBreak.textContent = sessionValueTitle.textContent;
+      countdownValue.textContent = minTwoDigits(+sessionValue.textContent) + ":" + minTwoDigits(0);
+    });
+  };
+
+  const resetTimer = () => {
+    reset.addEventListener("click", function() {
+      checkReset = true;
+      play.disabled = false;
+      pause.disabled = true;
+      stop.disabled = true;
+      downTimerSession.disabled = false;
+      upTimerSession.disabled = false;
+      downTimerBreak.disabled = false;
+      upTimerBreak.disabled = false;
+      sessionValue.textContent = 25;
+      breakValue.textContent = 5;
+      titleSessionOrBreak.textContent = sessionValueTitle.textContent;
+      countdownValue.textContent = minTwoDigits(25) + ":" + minTwoDigits(0);
     });
   };
  
   //call functions
   adjustSessionValue();
-  startTimeCountdown();
+  playTimer();
   pauseTimer();
+  stopTimer();
+  resetTimer();
 }
 //call timer
 timer();
