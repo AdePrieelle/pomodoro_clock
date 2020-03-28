@@ -7,7 +7,7 @@
 body {
     background-color: #2d545e;
     height: 100vh;
-    color: white;
+    color: white; 
 }
 
 .container {
@@ -16,11 +16,11 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, -90%);
 }
 
 .container-introTitle {
-    padding-bottom: 5px;
+    padding-bottom: 0.5vh;
 }
 
 .introTitleText {
@@ -34,7 +34,7 @@ body {
     background-color: #c89666;
     display: flex;
     justify-content: space-around;
-    padding: 5px;
+    padding: 0.5vh;
 }
 
 .buttonsTimerAdjust {
@@ -44,40 +44,31 @@ body {
 
 .container-countdownTimer {
     background-color: #c89666;
-    margin-top: 15px;
+    margin-top: 1.6vh;
 }
 
 .setTimerTitle {
     text-align: center;
     font-size: 2.5vh;
     opacity: 0.9;
-    margin: 10px 0px;
+    margin: 1vh 0vh;
 }
 
 .buttonsTimerAdjust {
-    margin-bottom: 10px;
+    margin-bottom: 1vh;
     display: flex;
     justify-content: space-around;
     align-items: baseline;
 }
 
-.adjustSessionValue {
-    margin: 0 10px;
+.adjustValues {
     font-size: 2vh;
     opacity: 0.9;
+    width: 3vh;
+    text-align: center;
 }
 
-.adjustBreakValue {
-    margin: 0 10px;
-    font-size: 2vh;
-    opacity: 0.9;
-}
-
-.buttonSize {
-    width: 6vh;;
-    height: 3vh;
-    font-size: 3vh;
-    padding: 0px;
+.buttonColor {
     border: none;
     background-color: #c89666;
     cursor: pointer;
@@ -86,11 +77,11 @@ body {
 .countdownTimerSessionOrBreak {
     text-align: center;
     font-size: 3vh;
-    padding-top: 10px;
+    padding-top: 1.1vh;
 }
 
 .countdown  {
-    margin: 10px 0px;
+    margin: 1vh 0px;
     text-align: center;
     font-size: 6vh;
 }
@@ -99,9 +90,17 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 20px 0;
+    padding: 1vh 0;
 }
 
 .adjustButton {
     font-size: 2vh;
+    width: 5vw;
+    height: 3vh;
+}
+
+.buttonsTimerSize {
+    width: 5vw;
+    height: 5vh;
+    font-size: 3vh;
 }

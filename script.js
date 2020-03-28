@@ -76,12 +76,12 @@ const timer = () => {
     });
   };
 
-  /* 
-  let minutes be countdownValue minutes and seconds be countdownvalue seconds
-  then if checkPause is true clear interval in startSessionCountdown and
-  startBreakCountdown
-  when play is pressed again check if titleSessionOrBreak is session or break
-  and based on that continue startSessionCountdown with countdownValue.textcontent
+  /*
+  When checkPause is true the current interval will be cleared
+  The titleSessionOrBreak will check if the countdown that was going on before the pause
+  Was a session or break.
+  When play is pressed it will countdown from the current countdownvalue that is being displayed
+  and will display the session or break as a title above.
   */
 
   const startSessionCountdown = () => {
